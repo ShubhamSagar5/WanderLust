@@ -2,19 +2,10 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const path = require('path')
+const Listing = require('./models/Listing')
 
 
-main()
-.then(()=>{
-    console.log('Database connect successfully')
-})
-.catch((err)=>{
-    console.log(err)
-})
-
-async function main(){
-    await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust")
-} 
+ 
 
 
 app.set("view engine","ejs");
@@ -27,6 +18,25 @@ app.use(express.static(path.join(__dirname,"public")))
 
 app.get("/",(req,res)=>{
     res.send("Hi i am root")
+})
+
+app.get("/listing",async(req,res)=>{
+    const listing = new Listing({
+        title:"aaa",
+        description:"ddd",
+        price:1200,
+        location:"nashik",
+        country:"India"
+    });
+
+    await listing.save();
+   
+      
+      
+
+    const addNewData = await Listing.insertMany(sampleListings)
+
+    res.send("Listing Added");
 })
 
 app.listen(8080,()=>{
