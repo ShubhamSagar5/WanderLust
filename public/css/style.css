@@ -1,3 +1,7 @@
+*{
+    font-family: "Plus Jakarta Sans", serif;
+}
+
 .fa-compass{
     color: #fe424d;
     font-size: 2rem;
@@ -5,4 +9,59 @@
 
 .nav-link{
     color: #222222 !important
+}
+
+.navbar{
+    
+    background-color: red !important;
+}
+
+.footer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: #fefefefe;
+    padding: 2px 0;
+    justify-content: center;
+    align-items: center;
+    line-height: 2.5rem;
+}
+.f-social i{
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+.f-terms a {
+    text-decoration: none;
+    margin-right: 0.3rem;
+    color: #222222;
+}
+
+.f-terms a:hover{
+    text-decoration: underline;
+}
+
+.row{
+    padding:2rem 0;
+ text-decoration: none;
+    margin-bottom: 2rem !important;
+    
+}
+.card{
+    border: none !important;
+}
+.card img{
+    border-radius: 1rem;
+    height: 200px;
+    width: 300px;
+}
+.row a{
+    text-decoration: none;
+}
+.card {
+    opacity: 1 !important
+}
+
+.card:hover{
+    
+    opacity: 0.7 !important;
 }
