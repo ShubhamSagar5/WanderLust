@@ -62,19 +62,20 @@ app.get("/listing/new",(req,res)=>{
 
 app.get("/listing/:id",async(req,res)=>{
     const {id} = req.params
-
-    const listing = await Listing.findById(id);
- 
-
-    res.render("listing/show.ejs",{listing})
+    
+        const listing = await Listing.findById(id); // Pass `id` directly
+       
+    
+        res.render("listing/show.ejs", { listing });
+     
 })
 
 
-
+ 
 //add new listing
 app.post("/listing",async(req,res)=>{
     const listing = req.body.listing;
-  
+ 
     const newListing = new Listing(listing);
     await newListing.save();
     res.redirect("listing")

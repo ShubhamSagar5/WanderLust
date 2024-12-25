@@ -1,5 +1,6 @@
 *{
     font-family: "Plus Jakarta Sans", serif;
+    
 }
 
 .fa-compass{
@@ -40,7 +41,7 @@
     text-decoration: underline;
 }
 
-.row{
+.row-f{
     padding:2rem 0;
  text-decoration: none;
     margin-bottom: 2rem !important;
@@ -57,11 +58,35 @@
 .row a{
     text-decoration: none;
 }
-.card {
+.card-h {
     opacity: 1 !important
 }
 
-.card:hover{
+.card-h:hover{
     
-    opacity: 0.7 !important;
+    opacity: 0.9 !important;
+}
+
+.main{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.container{
+    flex: 1;
+}
+
+.show-card img {
+    width:36rem;
+    height: 20rem;
+}
+
+.show-title {
+    font-size: 1.5rem;
+}
+
+.show_btn{
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
 }

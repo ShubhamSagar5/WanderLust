@@ -7,19 +7,12 @@
    </form> -->
    <!-- <br>
     <br> -->
-   <!-- <ul>
-    <% for(let listing of allListing){ %>
+ 
 
-
-      <a href="/listing/<%= listing._id  %>"> <li> <%= listing.title %> </li> </a>
-
-   <% } %>
-   </ul> -->
-
-   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+   <div class="row row-f row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
 <% for(let listing of allListing){ %>
-   <a href="listing/<%= listing._id %>">
-   <div class="card" >
+   <a href="/listing/<%= listing._id %>">
+   <div class="card card-h" >
       <img src=<%= listing.image %> class="card-img-top" alt="card-image">
       <div class="card-body">
         <p class="card-text"><b><%= listing.title%></b>  </p>
