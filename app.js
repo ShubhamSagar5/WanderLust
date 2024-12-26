@@ -7,7 +7,7 @@ const methodoverride = require('method-override');
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync")
 const ExpressError = require("./utils/ExpressError")
-
+const {listingSchema} = require("./SchemaValidation.js")
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -31,7 +31,16 @@ async function main(){
 
  
 
-
+const validateListingSchema = (req,res,next) => {
+    const {error} = listingSchema.validate(req.body);
+    if(error){
+        let collectionOfError = error.details.map((err)=>err.message);
+        console.log(error)
+        throw new ExpressError(400,collectionOfError);
+    }else{
+        next()
+    }
+}
 
 app.get("/",(req,res)=>{
     res.send("Hi i am root")
@@ -73,12 +82,10 @@ app.get("/listing/:id",wrapAsync(async(req,res)=>{
 
  
 //add new listing
-app.post("/listing",wrapAsync(async(req,res)=>{
+app.post("/listing",validateListingSchema,wrapAsync(async(req,res)=>{
 
     const listing = req.body.listing;
-    if(!listing){
-        throw new ExpressError(400,"Send Valid Data for listing")
-    }
+  
     const newListing = new Listing(listing);
     await newListing.save();
     res.redirect("listing")
