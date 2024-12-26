@@ -79,6 +79,7 @@
 .show-card img {
     width:36rem;
     height: 20rem;
+    object-fit: cover;
 }
 
 .show-title {
