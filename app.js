@@ -34,7 +34,7 @@ async function main(){
 const validateListingSchema = (req,res,next) => {
     const {error} = listingSchema.validate(req.body);
     if(error){
-        let collectionOfError = error.details.map((err)=>err.message);
+        let collectionOfError = error.details.map((err)=>err.message).join(",");
         console.log(error)
         throw new ExpressError(400,collectionOfError);
     }else{
@@ -143,7 +143,8 @@ app.all("*",(req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     const {statusCode =500,message="somthing went wrong"} = err
-    res.status(statusCode).send(message)
+    res.render("listing/Error.ejs",{message})
+    
 })
 
 
