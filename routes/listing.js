@@ -43,8 +43,13 @@ router.get("/new",(req,res)=>{
 router.get("/:id",wrapAsync(async(req,res)=>{
     const {id} = req.params
         const listing = await Listing.findById(id).populate("review"); // Pass `id` directly
-       
-  
+        console.log(listing)
+       if(!listing){
+        
+                req.flash("error","Listing you are requested are not exit")
+                res.redirect("/listing")
+
+       }
         res.render("listing/show.ejs", { listing });
      
 }))
@@ -58,7 +63,8 @@ router.post("/",validateListingSchema,wrapAsync(async(req,res)=>{
   
     const newListing = new Listing(listing);
     await newListing.save();
-    res.redirect("listing")
+    req.flash("success","New listing Created!")
+    res.redirect("/listing")
 }))
 
 //find for Edit and Update
@@ -67,8 +73,13 @@ router.get("/:id/edit",wrapAsync(async(req,res)=>{
     
     const {id} = req.params;
     const listing = await Listing.findById(id);
-    
-    res.render("listing/edit.ejs",{listing});
+    console.log(listing)
+    if(!listing){
+           req.flash("error","Listing you are requested are not exit")
+           res.redirect("/listing")
+ 
+    }
+     res.render("listing/edit.ejs",{listing});
 }))
 
 //Edit and Update 
@@ -77,6 +88,15 @@ router.put("/:id",wrapAsync(async(req,res)=>{
     const {id} = req.params 
 
     const updateListing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
+    console.log(updateListing)
+    if(!updateListing){
+            req.flash("error","Listing you are requested are not exit")
+            res.redirect("/listing")
+
+    }
+    req.flash("success","Listing Updated Successfully!")
+
+
     res.redirect(`/listing/${id}`)
 }))
 
@@ -85,6 +105,15 @@ router.put("/:id",wrapAsync(async(req,res)=>{
 router.delete("/:id/delete",wrapAsync(async(req,res)=>{
     const {id} = req.params
     const deleteListing = await Listing.findByIdAndDelete(id);
+    if(!deleteListing){
+                req.flash("error","Listing you are requested are not exit")
+                res.redirect("/listing")
+
+    }
+    req.flash("success","Listing Deleted Successfully!")
+
+
+
     res.redirect("/listing")
 }))
 

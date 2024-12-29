@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-8 offset-2">
              <h3>EditListing</h3>
-    <form method="POST" action="/listing/<%=listing._id%>/?_method=PUT" novalidate class="needs-validation">
+    <form method="get" action="/listing/<%=listing._id%>/?_method=PUT" novalidate class="needs-validation">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
                   <input class="form-control" id="title" type="text" name="listing[title]" value="<%= listing.title %>" placeholder="Enter Title" required>

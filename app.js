@@ -2,16 +2,14 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const path = require('path');
-const Listing = require('./models/Listing');
 const methodoverride = require('method-override');
 const ejsMate = require("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync")
 const ExpressError = require("./utils/ExpressError")
-const {listingSchema, reviewSchemaValidation} = require("./SchemaValidation.js");
-const Review = require('./models/Review.js');
+const connectFlash = require('connect-flash')
 
 const listing = require("./routes/listing.js")
 const review = require("./routes/review.js")
+const sessionStorage = require('express-session')
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -33,15 +31,29 @@ async function main(){
     await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
 } 
 
- 
+ const sessionOption = {
+secret:"thisismysecret",
+    resave:false,
+    saveUninitialized:true
+ }
+app.get("/",(req,res)=>{
+    res.send("Hi i am root")
+})
+ app.use(sessionStorage(sessionOption))
+ app.use(connectFlash())
+
+ app.use((req,res,next)=>{
+    res.locals.success = req.flash("success") 
+    res.locals.error = req.flash("error")
+    next()
+ })
+
 
 app.use("/listing",listing)
 app.use("/listing/:id",review)
 
 
-app.get("/",(req,res)=>{
-    res.send("Hi i am root")
-})
+
 
 
 
