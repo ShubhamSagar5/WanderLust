@@ -3,6 +3,7 @@ const wrapAsync = require('../utils/wrapAsync');
 const Listing = require('../models/Listing');
 const { reviewSchemaValidation, listingSchema } = require('../SchemaValidation');
 const ExpressError = require('../utils/ExpressError');
+const { isloggedIn } = require('../middleware/user');
 const router = express.Router() 
 
 
@@ -32,7 +33,7 @@ router.get("/",wrapAsync(async(req,res)=>{
 
 //render create New form
 
-router.get("/new",(req,res)=>{
+router.get("/new",isloggedIn,(req,res)=>{
     res.render("listing/new.ejs")
 })
 
@@ -57,7 +58,7 @@ router.get("/:id",wrapAsync(async(req,res)=>{
 
  
 //add new listing
-router.post("/",validateListingSchema,wrapAsync(async(req,res)=>{
+router.post("/",isloggedIn, validateListingSchema,wrapAsync(async(req,res)=>{
 
     const listing = req.body.listing;
   
@@ -69,7 +70,7 @@ router.post("/",validateListingSchema,wrapAsync(async(req,res)=>{
 
 //find for Edit and Update
 
-router.get("/:id/edit",wrapAsync(async(req,res)=>{
+router.get("/:id/edit",isloggedIn,wrapAsync(async(req,res)=>{
     
     const {id} = req.params;
     const listing = await Listing.findById(id);
@@ -84,7 +85,7 @@ router.get("/:id/edit",wrapAsync(async(req,res)=>{
 
 //Edit and Update 
 
-router.put("/:id",wrapAsync(async(req,res)=>{
+router.put("/:id",isloggedIn,wrapAsync(async(req,res)=>{
     const {id} = req.params 
 
     const updateListing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
@@ -102,7 +103,7 @@ router.put("/:id",wrapAsync(async(req,res)=>{
 
 //Delete Listing
 
-router.delete("/:id/delete",wrapAsync(async(req,res)=>{
+router.delete("/:id/delete",isloggedIn,wrapAsync(async(req,res)=>{
     const {id} = req.params
     const deleteListing = await Listing.findByIdAndDelete(id);
     if(!deleteListing){

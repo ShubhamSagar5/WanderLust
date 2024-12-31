@@ -60,12 +60,13 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user
   next();
 });
 
 app.use("/listing", listingRouter);
 app.use("/listing/:id", reviewRouter);
-app.use("/user",userRouter)
+app.use("/",userRouter)
 
 // app.get("/listing",async(req,res)=>{
 //     const listing = new Listing({
