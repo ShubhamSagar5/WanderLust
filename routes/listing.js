@@ -43,9 +43,9 @@ router.get("/new",isloggedIn,(req,res)=>{
 
 router.get("/:id",wrapAsync(async(req,res)=>{
     const {id} = req.params
-        const listing = await Listing.findById(id).populate("review").populate("owner"); // Pass `id` directly
-        
-       if(!listing){
+        const listing = await Listing.findById(id).populate({path:"review",populate:{path:"author"}}).populate("owner"); // Pass `id` directly
+  
+       if(!listing){ 
         
                 req.flash("error","Listing you are requested are not exit")
                 res.redirect("/listing")
@@ -86,7 +86,7 @@ router.get("/:id/edit",isloggedIn,wrapAsync(async(req,res)=>{
 
 //Edit and Update 
 
-router.post("/:id",isloggedIn,isOwner,wrapAsync(async(req,res)=>{
+router.put("/:id/edit",isloggedIn,isOwner,wrapAsync(async(req,res)=>{
     const {id} = req.params 
     
     const updateListing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
