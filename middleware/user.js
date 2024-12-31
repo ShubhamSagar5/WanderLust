@@ -1,3 +1,5 @@
+const Listing = require("../models/Listing")
+
 module.exports.isloggedIn = (req,res,next) => {
     
     if(!req.isAuthenticated()){
@@ -18,4 +20,18 @@ module.exports.saveRedirectUrl = (req,res,next)=>{
         
     }
     next()
+}
+
+
+module.exports.isOwner = async(req,res,next) => {
+    const {id} = req.params 
+
+    const listing = await Listing.findById(id)
+    if(!listing.owner.equals(res.locals.currUser._id)){
+        req.flash("error","You dont nave permission to edit")
+        return res.redirect(`/listing/${id}`)
+    }
+
+    next()
+
 }

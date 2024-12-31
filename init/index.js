@@ -22,7 +22,9 @@ async function main(){
 
 const init = async() => {
     await Listing.deleteMany({});
-    await Listing.insertMany(newData.data);
+    const updatedData = newData.data.map((obj)=>({...obj,owner:"6773b2e7fe59d0ab5c7f4d96"})) 
+   
+    await Listing.insertMany(updatedData);
     console.log('Data added Successfully');
 }
 

@@ -11,7 +11,7 @@ router.get("/signup",(req,res)=>{
 router.post("/signup",async(req,res,next)=>{
     try {
         const {username,email,password} = req.body
-        console.log(req.body)
+    
         const newUser = new User({
             email:email,
             username:username
@@ -27,7 +27,7 @@ router.post("/signup",async(req,res,next)=>{
         
     
     } catch (error) {
-        console.log(error)
+        
         req.flash("error",error.message)
         res.redirect("/user/signup")
     }
