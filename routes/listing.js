@@ -3,7 +3,9 @@ const router = express.Router()
 const wrapAsync = require('../utils/wrapAsync');
 const { isloggedIn, isOwner, validateListingSchema } = require('../middleware/user');
 const listingController = require("../controllers/listing")
-
+const multer = require('multer')
+const {storage} = require("../cloudConfig/cloudinary.js")
+const upload = multer({storage})
 
 
 
@@ -24,7 +26,8 @@ router.get("/:id",wrapAsync(listingController.showListing))
 
  
 //add new listing
-router.post("/",isloggedIn, validateListingSchema,wrapAsync(listingController.addNew))
+router.post("/",isloggedIn,upload.single("listing[image]"),validateListingSchema,wrapAsync(listingController.addNew))
+
 
 //find for Edit and Update
 

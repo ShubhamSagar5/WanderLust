@@ -4,7 +4,7 @@ const { listingSchema, reviewSchemaValidation } = require("../SchemaValidation")
 const ExpressError = require("../utils/ExpressError")
 
 module.exports.isloggedIn = (req,res,next) => {
-    
+   
     if(!req.isAuthenticated()){
         req.session.redirectUrl = req.originalUrl
         req.flash("error","You Must be LoggedIn !")
@@ -12,7 +12,7 @@ module.exports.isloggedIn = (req,res,next) => {
     }else{
          next()
     }
-   
+  
 }
 
 module.exports.saveRedirectUrl = (req,res,next)=>{
@@ -66,6 +66,7 @@ module.exports.validateListingSchema = (req,res,next) => {
 }
 
 module.exports.validateReviewSchema = (req,res,next)=>{
+  
     let {error} = reviewSchemaValidation.validate(req.body)
     if(error){
         let collectionOfError = error.details.map((err)=>err.message).join(",");
@@ -73,4 +74,5 @@ module.exports.validateReviewSchema = (req,res,next)=>{
     }else{
         next()
     }
+    
 }
