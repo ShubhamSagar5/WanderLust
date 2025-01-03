@@ -53,20 +53,31 @@ module.exports.getEdit = async(req,res)=>{
     
     const {id} = req.params;
     const listing = await Listing.findById(id);
+
+    let previewImage = listing.image.url
+    previewImage = previewImage.replace("/upload","/upload/w_150")
     
     if(!listing){
            req.flash("error","Listing you are requested are not exit")
            res.redirect("/listing")
  
     }
-     res.render("listing/edit.ejs",{listing});
+     res.render("listing/edit.ejs",{listing,previewImage});
 } 
 
 module.exports.editListing = async(req,res)=>{
     const {id} = req.params 
+    const url = req.file.path 
+    const fileName = req.file.filename
     
     const updateListing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
     
+    if(typeof(req.file) !== 'undefined'){
+        updateListing.image = {url,fileName} 
+    }
+    updateListing.save()
+
+
     if(!updateListing){
             req.flash("error","Listing you are requested are not exit")
             res.redirect("/listing")

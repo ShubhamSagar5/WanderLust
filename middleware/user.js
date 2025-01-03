@@ -60,7 +60,7 @@ module.exports.validateListingSchema = (req,res,next) => {
         
         throw new ExpressError(400,collectionOfError);
     }else{
-        console.log("next")
+    
         next()
     }
 }

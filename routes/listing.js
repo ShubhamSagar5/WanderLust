@@ -35,7 +35,7 @@ router.get("/:id/edit",isloggedIn,wrapAsync(listingController.getEdit))
 
 //Edit and Update 
 
-router.put("/:id/edit",isloggedIn,isOwner,wrapAsync(listingController.editListing))
+router.put("/:id/edit",isloggedIn,isOwner,upload.single("listing[image]"),validateListingSchema,wrapAsync(listingController.editListing))
 
 //Delete Listing
 
