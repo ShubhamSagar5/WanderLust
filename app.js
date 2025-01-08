@@ -7,7 +7,6 @@ const methodoverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const connectFlash = require("connect-flash");
-
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js")
@@ -15,6 +14,8 @@ const sessionStorage = require("express-session");
 const passport = require("passport");
 const LocalStratergy = require("passport-local");
 const User = require("./models/User.js");
+const MongoStore = require('connect-mongo');
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -22,6 +23,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodoverride("_method"));
 app.engine("ejs", ejsMate);
+
+
+const db_URL = process.env.ATLAS_URL 
 
 main()
   .then(() => {
@@ -32,16 +36,28 @@ main()
   });
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
+  await mongoose.connect(db_URL);
 }
 
 // app.get("/", (req, res) => {
 //   res.send("Hi i am root");
 // });
 
+const store = MongoStore.create({
+  mongoUrl:db_URL,
+  crypto:{
+    secret:process.env.SECRET
+  },
+  touchAfter: 24*3600
+})
+
+store.on("error",()=>{
+  console.log("Error in mongo store",err)
+})
 
 const sessionOption = {
-  secret: "thisismysecret",
+store,
+  secret:process.env.SECRET,
   resave: false,
   saveUninitialized: true,
 };
